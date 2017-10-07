@@ -14,7 +14,7 @@ class Weather():
 		content = request_data.read().decode()
 		return content
 
-	def get_xml_elements(self):
+	def search_xml_tree(self):
 		# Retrieve the tags we are interested in
 		weather_data_tags_dict = {
 		    'observation_time': '',
@@ -40,8 +40,11 @@ class Weather():
 		icon_url_name = xml_root.find('icon_url_name').text
 		icon_url = icon_url_base + icon_url_name
     
-		return icon_url
+		return weather_data_tags_dict, icon_url
+
+	def get_data_iconurl(self):
+		return self.search_xml_tree()
 
 
 #Weather().retrieve_data()
-Weather().get_xml_elements()
+Weather().search_xml_tree()
