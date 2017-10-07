@@ -22,10 +22,10 @@ class EmailService():
 
 		msg["Subject"] = "Hourly Weather {}".format(datetime.now().strftime("%Y-%m-%d %H:%M"))
 		msg["From"] = "vickeyakinmade22@gmail.com"
-		msg["To"] = 'victorakinmade23@gmail.com, vickeyakinmade22@gmail.com'
+		msg["To"] = 'vickeyakinmade22@gmail.com'
 		return msg
 
-	def send_message(self):
+	def send_email(self):
 		server = smtplib.SMTP('smtp.gmail.com', port=587)
 		server.ehlo()       # Extended Hello
 		server.starttls()   # Put the SMTP connection in TLS (Transport Layer Security) mode.  
@@ -40,5 +40,5 @@ if __name__ == '__main__':
     from htmlhandler import HtmlHandler #import create_html_file 
     weather_dict, icon = Weather('KLAX').get_data_iconurl()
     email_file = "Test_Email_File.html"
-    HtmlHandler().create_html_file(weather_dict, icon, email_file)
-    EmailService(email_file).send_message()
+    HtmlHandler.create_html_file(weather_dict, icon, email_file)
+    EmailService(email_file).send_email()
