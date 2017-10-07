@@ -34,7 +34,7 @@ class EmailService():
 		server.send_message(self.read_message())
 		server.close()
 
-
+# sudo test for EmailService 
 if __name__ == '__main__':
     from weather import Weather
     from htmlhandler import HtmlHandler #import create_html_file 
