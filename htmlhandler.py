@@ -2,8 +2,8 @@ from datetime import datetime
 
 
 class HtmlHandler():
-
-	def create_html_file(self, data_dict, icon_url, html_file):
+	@classmethod
+	def create_html_file(cls, data_dict, icon_url, html_file):
     
 	    alt_var = data_dict['weather']
 	   
@@ -22,9 +22,9 @@ class HtmlHandler():
 
 	    return outfile
 
-
+# pseudo test
 if __name__ == '__main__':
     from weather import Weather
     weather_dict, icon = Weather('KLAX').get_data_iconurl()
-    HtmlHandler().create_html_file(weather_dict, icon, "Test_Email_File.html")
+    HtmlHandler.create_html_file(weather_dict, icon, "Test_Email_File.html")
 
