@@ -11,7 +11,6 @@ from datetime import datetime
 from gmail_key import GMAIL_PWD
 
 
-
 class EmailService():
 	def __init__(self, msg_file):
 		self.msg_file = msg_file
