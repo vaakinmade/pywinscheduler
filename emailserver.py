@@ -37,7 +37,7 @@ class EmailService():
 if __name__ == '__main__':
     from footyapi import FootballDataAPI
     from htmlhandler import HtmlHandler #import create_html_file 
-    email_file = "Test_Email_File.html"
+    email_file = "Footy_Email_File.html"
     list_dict = FootballDataAPI().retrieve_matchday_fixtures()
 	HtmlHandler.create_html_file(list_dict, "Footy_Email_File.html")
     EmailService(email_file).send_email()
