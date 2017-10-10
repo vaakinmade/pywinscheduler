@@ -1,5 +1,5 @@
-app/views/* linguist-vendored
-
-app/* linguist-documentation
 
 *.py linguist-language=Python
+
+* linguist-vendored
+*.py linguist-vendored=false
