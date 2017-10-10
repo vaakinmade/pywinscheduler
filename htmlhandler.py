@@ -8,41 +8,41 @@ class HtmlHandler():
 		utc_time = iso8601.parse_date('2012-11-01T04:16:13-04:00')
 
 		print(datetime.strftime(utc_time, "%d %b %y"))
-	    with open(html_file, mode='w') as outfile:
-	        outfile.write('\t<tr><td align="center">'
-	        	+ datetime.strftime(utc_time, "%d %b %y")
-	        	+'</td></tr><br>\n')
-	        outfile.write('<img alt={} src={}>'.format(
-	        	"Premier League Fixtures", crest_url))
-	        outfile.write('''<br>
-	        	<span style="color:blue"><b>\tEPL Upcoming Fixtures:</b>\n''')
-	        outfile.write('<br>')    
-	            
-	        outfile.write('<html><table border=1>\n')
+		with open(html_file, mode='w') as outfile:
+			outfile.write('\t<tr><td align="center">'
+				+ datetime.strftime(utc_time, "%d %b %y")
+				+'</td></tr><br>\n')
+			outfile.write('<img alt={} src={} height="16" width="16">'.format(
+				"EPL Fixtures", crest_url))
+			outfile.write('''<br>
+				<span style="color:blue"><b>\tEPL Upcoming Fixtures:</b>\n''')
+			outfile.write('<br>')    
+			    
+			outfile.write('<html><table border=1>\n')
 			for data_dict in list_dict["fixtures"]:
-		        for key in data_dict.keys():
-		            outfile.write('''<tr>
-		            	<td><b><span style="color:blue">{0}</b></td>
-		            	<td>
-		            		<strong>
-		            			<span style="color:black">{2:%H:%M}</span>
-		            		</strong>
-		            	</td>
-		            	<td align="left">
-		            		<span style="color:blue"><b>{1}</b>
-		            	</td>
-		            	</tr>\n'''.format(
-		            		key["homeTeamName"],
-		            		key["awayTeamName"],
-		            		key["date"]))
-		        outfile.write('</table></html>\n')
+			    outfile.write('''<tr>
+					<td><b><span style="color:blue">{0}</b></td>
+					<td>
+						<strong>
+							<span style="color:black">{2:%H:%M}</span>
+						</strong>
+					</td>
+					<td align="left">
+						<span style="color:blue"><b>{1}</b>
+					</td>
+					</tr>\n'''.format(
+						data_dict["homeTeamName"],
+						data_dict["awayTeamName"],
+						iso8601.parse_date(data_dict["date"]))
+				)
+			outfile.write('</table></html>\n')
 
-	    return outfile
+			return outfile
 
 # pseudo test
 if __name__ == '__main__':
     from footyapi import FootballDataAPI
     obj = FootballDataAPI()
-    list_dict, crest = obj.retrieve_previous_fixtures(), obj.get_club_crest(66)
+    list_dict, crest = obj.retrieve_matchday_fixtures(), obj.get_club_crest(66)
     HtmlHandler.create_html_file(list_dict, crest, "Footy_Email_File.html")
 
