@@ -7,7 +7,10 @@ import json
 class FootballDataAPI():
 	def __init__(self):
 		self.connection = http.client.HTTPConnection('api.football-data.org')
-		self.headers = { 'X-Response-Control': 'minified' }
+		self.headers = {
+			'X-Auth-Token': '8128fabfbba5438faf651bf3fd29f54a',
+			'X-Response-Control': 'minified'
+		}
 
 	def current_matchday(self):
 		self.connection.request('GET',
