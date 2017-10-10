@@ -15,4 +15,4 @@ Will be looking to write in some international fixtures support as well, especia
 - unit tests
 - a bit of design glossing maybe, maybe not 
 
-#### Full docs coming in a bit. 
+#### Full guide coming in a bit. 
