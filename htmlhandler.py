@@ -6,13 +6,16 @@ from footyapi import FootballDataAPI
 
 
 class HtmlHandler():
-	def date_converter(self, date_time):
-		from_zone = tz.tzutc()
+	def time_converter(self, date_time):
 		to_zone = tz.tzlocal()
 
 		utc = iso8601.parse_date(date_time)
 		local_time = utc.astimezone(to_zone)
 		return local_time
+
+	def extract_date(date_time):
+		utc = iso8601.parse_date(date_time)
+		return datetime.strftime(utc, "%d %b %y")
 
 	@classmethod
 	def create_html_file(cls, list_dict, html_file):
@@ -26,10 +29,15 @@ class HtmlHandler():
 			    
 			outfile.write('<html><table border=1>\n')
 			for data_dict in list_dict["fixtures"]:
-				home_team_crest = FootballDataAPI().get_club_crest(data_dict["homeTeamId"])
-				away_team_crest = FootballDataAPI().get_club_crest(data_dict["awayTeamId"])
+				home_team_crest = FootballDataAPI().get_club_crest(
+					data_dict["homeTeamId"])
+				away_team_crest = FootballDataAPI().get_club_crest(
+					data_dict["awayTeamId"])
 				
 				outfile.write('''<tr>
+					<td colspan="3" align="center">
+						{5}
+					</td>
 					<td>
 						<img alt="crest" src={3} height="16" width="16">
 						&nbsp;&nbsp; <span style="color:blue"><b>{0}</b>
@@ -46,9 +54,10 @@ class HtmlHandler():
 					</tr>\n'''.format(
 						data_dict["homeTeamName"],
 						data_dict["awayTeamName"],
-						HtmlHandler().date_converter(data_dict["date"]),
+						HtmlHandler().time_converter(data_dict["date"]),
 						home_team_crest,
-						away_team_crest)
+						away_team_crest,
+						HtmlHandler().extract_date(data_dict["date"]),)
 				)
 			outfile.write('</table></html>\n')
 
