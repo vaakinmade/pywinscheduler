@@ -1,8 +1,17 @@
 from datetime import datetime
 import iso8601
+from dateutil import tz
 
 
 class HtmlHandler():
+	def date_converter(self, date_time):
+		from_zone = tz.tzutc()
+		to_zone = tz.tzlocal()
+
+		utc = iso8601.parse_date(date_time)
+		local_time = utc.astimezone(to_zone)
+		return local_time
+
 	@classmethod
 	def create_html_file(cls, list_dict, crest_url, html_file):
 		utc_time = iso8601.parse_date('2012-11-01T04:16:13-04:00')
@@ -33,7 +42,7 @@ class HtmlHandler():
 					</tr>\n'''.format(
 						data_dict["homeTeamName"],
 						data_dict["awayTeamName"],
-						iso8601.parse_date(data_dict["date"]))
+						HtmlHandler().date_converter(data_dict["date"]))
 				)
 			outfile.write('</table></html>\n')
 
