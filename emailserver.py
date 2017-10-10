@@ -19,7 +19,7 @@ class EmailService():
 		with open(self.msg_file, mode = "rb") as message:
 			msg = MIMEText(message.read(), "html", "html")
 
-		msg["Subject"] = "Hourly Weather {}".format(datetime.now().strftime("%Y-%m-%d %H:%M"))
+		msg["Subject"] = "EPL Footy Alert {}".format(datetime.now().strftime("%Y-%m-%d %H:%M"))
 		msg["From"] = "vickeyakinmade22@gmail.com"
 		msg["To"] = 'vickeyakinmade22@gmail.com'
 		return msg
@@ -35,9 +35,9 @@ class EmailService():
 
 # sudo test for EmailService 
 if __name__ == '__main__':
-    from weather import Weather
+    from footyapi import FootballDataAPI
     from htmlhandler import HtmlHandler #import create_html_file 
-    weather_dict, icon = Weather('KLAX').get_data_iconurl()
     email_file = "Test_Email_File.html"
-    HtmlHandler.create_html_file(weather_dict, icon, email_file)
+    list_dict = FootballDataAPI().retrieve_matchday_fixtures()
+	HtmlHandler.create_html_file(list_dict, "Footy_Email_File.html")
     EmailService(email_file).send_email()
