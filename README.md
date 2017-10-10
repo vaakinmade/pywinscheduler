@@ -9,10 +9,10 @@ Will be looking to write in some international fixtures support as well, especia
 3. Relevant data is formatted into html (painful, boring) and saved to disk
 4. Custom pseudo-email server reads the html file from disk, opens smtp conn, encrypts the content with tls before mailing off
 5. Python scheduler wraps all the above steps as a single job and runs it at scheduled intervals
-6. A Windows service written to turn the scheduler into a native OS task. App is now viewable from task manager like any other app.
+6. A Windows service turns the scheduler into a native OS task. App is now viewable from task manager like any other app.
 
 ## TO-DOs
 - unit tests
 - a bit of design glossing maybe, maybe not 
 
-Full docs coming in a bit. 
+#### Full docs coming in a bit. 
