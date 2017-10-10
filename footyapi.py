@@ -9,9 +9,18 @@ class FootballDataAPI():
 		self.connection = http.client.HTTPConnection('api.football-data.org')
 		self.headers = { 'X-Response-Control': 'minified' }
 
-	def retrieve_previous_fixtures(self):
+	def current_matchday(self):
 		self.connection.request('GET',
-			'/v1/competitions/445/fixtures?timeFrame=p14',
+			'/v1/competitions/445/',
+			None, self.headers)
+		response = json.loads(self.connection.getresponse().read().decode())
+		return response["currentMatchday"]
+
+	def retrieve_matchday_fixtures(self):
+		self.connection.request('GET',
+			'/v1/competitions/445/fixtures?matchday={}'.format(
+			self.current_matchday()
+			),
 			None, self.headers )
 		response = json.loads(self.connection.getresponse().read().decode())
 		return response
