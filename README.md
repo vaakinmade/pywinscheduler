@@ -1,5 +1,7 @@
 # FootyAlert
-Got sick of repeatedly opening up the bbc results page so I wrote an EPL and Man Utd fixture inboxer. Also wrote a windows service to run the scheduling job as a native OS task. This is one massive itch scratched.
+Got sick of repeatedly going on the bbc results page so I wrote an EPL and Man Utd fixture inboxer. Wrapped it in a windows service to run the scheduling job as a native OS task.
+
+Will be looking to write in some international fixtures support as well, especially since Nigeria's punched their Russia '18 ticket.
 
 ## Steps
 1. Request is fired off to football-data.org's amazing API, gets a bunch of stuff I am interested in.
