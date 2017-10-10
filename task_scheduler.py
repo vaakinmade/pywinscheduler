@@ -1,8 +1,8 @@
-from weather import Weather
+ffrom footyapi import FootballDataAPI
 from htmlhandler import HtmlHandler
 from emailserver import EmailService
 
-from collections import OrderedDict
+from collections import OrderedList
 from time import sleep
 from pprint import pprint
 import schedule
@@ -11,11 +11,11 @@ class Schedule():
 	@classmethod
 	def job(cls):
 	    pprint(schedule.jobs)
-	    weather_dict, icon = Weather('KLAX').get_data_iconurl()  
-	    weather_dict_ordered = OrderedDict(sorted(weather_dict.items())) 
+	    list_dict = FootballDataAPI().retrieve_matchday_fixtures()  
+	    footy_dict_ordered = OrderedList(sorted(list_dict) 
 	    
-	    email_file = "Email_File.html"
-	    HtmlHandler.create_html_file(weather_dict_ordered, icon, email_file)
+	    email_file = "Footy_Email_File.html"
+	    HtmlHandler.create_html_file(footy_dict_ordered, "Footy_Email_File.html")
 	    EmailService(email_file).send_email()
 
 
