@@ -32,14 +32,14 @@ class HtmlHandler():
 		self.write_epl_to_file(fixtures_list, self.html_file)
 
 	def write_team_to_file(self, team_fixtures, html_file):
-		club_name = FootballDataAPI().get_club(66).get('name')
+		short_club_name = FootballDataAPI().get_club(66).get('shortName')
 
 		with open(html_file, mode='w') as outfile:
 			outfile.write('''
-				<html><table cellpadding=5 style="min-width:40%">\n''')
+				<html><table cellpadding=5 style="min-width:40%">''')
 			outfile.write('''<tr><td colspan="3">
 				<br><b>\t {} Upcoming Fixtures:</b></center></td></tr>\n'''.
-				format(club_name.replace("FC", ""))
+				format(short_club_name.replace(" FC", ""))
 			)
 			outfile.write('<br>')
 
