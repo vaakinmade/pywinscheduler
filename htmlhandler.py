@@ -74,8 +74,8 @@ class HtmlHandler():
 							&nbsp;&nbsp; <span style="color:blue"><b>{1}</b>
 							</td>
 							</tr>\n'''.format(
-								data_dict.get('homeTeamName').replace("FC", ""),
-								data_dict.get('awayTeamName').replace("FC", ""),
+								data_dict.get('homeTeamName').replace(" FC", ""),
+								data_dict.get('awayTeamName').replace(" FC", ""),
 								self.time_converter(data_dict.get('date')),
 								home_team_crest.get('crestUrl'),
 								away_team_crest.get('crestUrl')
@@ -125,8 +125,8 @@ class HtmlHandler():
 							&nbsp;&nbsp; <span style="color:blue"><b>{1}</b>
 							</td>
 							</tr>\n'''.format(
-								data_dict.get('homeTeamName').replace("FC", ""),
-								data_dict.get('awayTeamName').replace("FC", ""),
+								data_dict.get('homeTeamName').replace(" FC", ""),
+								data_dict.get('awayTeamName').replace(" FC", ""),
 								self.time_converter(data_dict.get('date')),
 								home_team_crest.get('crestUrl'),
 								away_team_crest.get('crestUrl')
