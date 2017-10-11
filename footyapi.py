@@ -12,7 +12,7 @@ class FootballDataAPI():
 			'X-Response-Control': 'minified'
 		}
 
-	def current_matchday(self):
+	def _current_matchday(self):
 		self.connection.request('GET',
 			'/v1/competitions/445/',
 			None, self.headers)
@@ -22,7 +22,7 @@ class FootballDataAPI():
 	def retrieve_matchday_fixtures(self):
 		self.connection.request('GET',
 			'/v1/competitions/445/fixtures?matchday={}'.format(
-			self.current_matchday()
+			self._current_matchday()
 			),
 			None, self.headers )
 		response = json.loads(self.connection.getresponse().read().decode())
@@ -34,6 +34,3 @@ class FootballDataAPI():
 			None, self.headers )
 		response = json.loads(self.connection.getresponse().read().decode())
 		return response["crestUrl"]
-
-
-print(FootballDataAPI().get_club_crest(66))
