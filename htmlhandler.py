@@ -13,12 +13,20 @@ class HtmlHandler():
 		local_time = utc.astimezone(to_zone)
 		return local_time
 
-	def extract_date(date_time):
+	def extract_date(self, date_time):
 		utc = iso8601.parse_date(date_time)
 		return datetime.strftime(utc, "%d %b %y")
 
-	@classmethod
-	def create_html_file(cls, list_dict, html_file):
+	def unique_dates(self, list_dict):
+		date_set = set()
+		for item in list_dict["fixtures"]:
+			fixture_date = self.extract_date(item.get('date'))
+			date_set.add(fixture_date)
+
+		return sorted(date_set)
+
+	def create_html_file(self, fixture_list_dict, html_file):
+
 		with open(html_file, mode='w') as outfile:
 			outfile.write('\t<tr><td align="center">'
 				+ datetime.strftime(datetime.now(), "%d %b %y")
@@ -26,39 +34,46 @@ class HtmlHandler():
 			outfile.write('''<br>
 				<span style="color:blue"><b>\tEPL Upcoming Fixtures:</b>\n''')
 			outfile.write('<br>')    
-			    
+			
 			outfile.write('<html><table border=1>\n')
-			for data_dict in list_dict["fixtures"]:
-				home_team_crest = FootballDataAPI().get_club_crest(
-					data_dict["homeTeamId"])
-				away_team_crest = FootballDataAPI().get_club_crest(
-					data_dict["awayTeamId"])
-				
+
+			unique_dates = self.unique_dates(fixture_list_dict)
+			for title_date in unique_dates:
 				outfile.write('''<tr>
-					<td colspan="3" align="center">
-						{5}
+					<td align="center">
+						{}
 					</td>
-					<td>
-						<img alt="crest" src={3} height="16" width="16">
-						&nbsp;&nbsp; <span style="color:blue"><b>{0}</b>
-					</td>
-					<td>
-						<strong>
-							<span style="color:black">{2:%H:%M}</span>
-						</strong>
-					</td>
-					<td align="left">
-						<img alt="crest" src={4} height="16" width="16">
-						&nbsp;&nbsp; <span style="color:blue"><b>{1}</b>
-					</td>
-					</tr>\n'''.format(
-						data_dict["homeTeamName"],
-						data_dict["awayTeamName"],
-						HtmlHandler().time_converter(data_dict["date"]),
-						home_team_crest,
-						away_team_crest,
-						HtmlHandler().extract_date(data_dict["date"]),)
+					</tr>'''.format(title_date)
 				)
+				for data_dict in fixture_list_dict["fixtures"]:
+					if title_date == self.extract_date(data_dict.get('date')):
+						home_team_crest = FootballDataAPI().get_club_crest(
+							data_dict["homeTeamId"])
+						away_team_crest = FootballDataAPI().get_club_crest(
+							data_dict["awayTeamId"])
+
+						outfile.write('''<tr>
+							<td>
+							<img alt="crest" src={3} height="16" width="16">
+							&nbsp;&nbsp; <span style="color:blue"><b>{0}</b>
+							</td>
+							<td>
+								<strong>
+									<span style="color:black">{2:%H:%M}</span>
+								</strong>
+							</td>
+							<td align="left">
+							<img alt="crest" src={4} height="16" width="16">
+							&nbsp;&nbsp; <span style="color:blue"><b>{1}</b>
+							</td>
+							</tr>\n'''.format(
+								data_dict.get('homeTeamName'),
+								data_dict.get('awayTeamName'),
+								self.time_converter(data_dict.get('date')),
+								home_team_crest,
+								away_team_crest
+								)
+						)
 			outfile.write('</table></html>\n')
 
 			return outfile
@@ -67,6 +82,7 @@ class HtmlHandler():
 if __name__ == '__main__':
 	from footyapi import FootballDataAPI
 	obj = FootballDataAPI()
-	list_dict = obj.retrieve_matchday_fixtures()
-	HtmlHandler.create_html_file(list_dict, "Footy_Email_File.html")
+	fixture_list_dict = obj.retrieve_matchday_fixtures()
+	HtmlHandler().create_html_file(fixture_list_dict, "Footy_Email_File.html")
+	#HtmlHandler().unique_dates(fixture_list_dict)
 
