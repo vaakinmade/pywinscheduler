@@ -33,17 +33,17 @@ class HtmlHandler():
 
 	def write_team_to_file(self, team_fixtures, html_file):
 		short_club_name = FootballDataAPI().get_club(66).get('shortName')
+		unique_dates = self.unique_dates(team_fixtures)
 
 		with open(html_file, mode='w') as outfile:
 			outfile.write('''
 				<html><table cellpadding=5 style="min-width:40%">''')
-			outfile.write('''<tr><td colspan="3">
-				<br><b>\t {} Upcoming Fixtures:</b></center></td></tr>\n'''.
+			outfile.write('''<tr><td align="center" colspan="3">
+				<br><strong>\t {} Upcoming Fixtures:</strong></td></tr>\n'''.
 				format(short_club_name.replace(" FC", ""))
 			)
 			outfile.write('<br>')
-
-			unique_dates = self.unique_dates(team_fixtures)
+			
 			for title_date in unique_dates:
 				outfile.write('''<tr>
 					<td align="center" colspan="3"
@@ -86,15 +86,16 @@ class HtmlHandler():
 			return outfile
 
 	def write_epl_to_file(self, fixture_list_dict, html_file):
+		unique_dates = self.unique_dates(fixture_list_dict)
+		
 		with open(html_file, mode='a') as outfile:
 			outfile.write('''
 				<html>
 					<table cellpadding=5 style="min-width:40%">\n'''
 			)
-			outfile.write('''<tr><td colspan="3">
-				<br><b>\t EPL Upcoming Fixtures:</b></center></td></tr>\n\n''')
+			outfile.write('''<tr><td align="center" colspan="3">
+				<br><strong>\t EPL Upcoming Fixtures:</strong></td></tr>\n\n''')
 			
-			unique_dates = self.unique_dates(fixture_list_dict)
 			for title_date in unique_dates:
 				outfile.write('''<tr>
 					<td align="center" colspan="3"
