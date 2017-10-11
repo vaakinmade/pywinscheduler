@@ -6,3 +6,6 @@ gmail_key.py
 
 # python-decouple .env
 *.env
+
+# html file
+*.html
