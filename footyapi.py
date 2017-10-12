@@ -21,14 +21,25 @@ class FootballDataAPI():
 
 	def retrieve_matchday_fixtures(self, competition_id):
 		self.connection.request('GET',
-			'/v1/competitions/445/fixtures?matchday={}'.format(
+			'/v1/competitions/{}/fixtures?matchday={}'.format(
+			competition_id,
 			self._current_matchday(competition_id)
 			),
 			None, self.headers )
 		response = json.loads(self.connection.getresponse().read().decode())
 		return response
 
-	def team_fixtures(self, club_id):
+	def latest_competition_results(self, competition_id):
+		self.connection.request('GET',
+			'/v1/competitions/{}/fixtures?matchday={}'.format(
+			competition_id,
+			self._current_matchday(competition_id-1)
+			),
+			None, self.headers )
+		response = json.loads(self.connection.getresponse().read().decode())
+		return response
+
+	def single_team_fixtures(self, club_id):
 		self.connection.request('GET',
 			'/v1/teams/{}/fixtures?timeFrame=n10'.format(club_id),
 			None, self.headers )
