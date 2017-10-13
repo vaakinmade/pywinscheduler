@@ -1,7 +1,6 @@
-from urllib import request
-from xml.etree import ElementTree
 import http.client
 import json
+import redis
 
 
 class FootballDataAPI():
@@ -51,4 +50,8 @@ class FootballDataAPI():
 			'/v1/teams/{}'.format(club_id),
 			None, self.headers )
 		response = json.loads(self.connection.getresponse().read().decode())
+		print(response)
 		return response
+
+
+FootballDataAPI().get_club(66)
