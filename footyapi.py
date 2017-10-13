@@ -1,5 +1,7 @@
 import http.client
 import json
+import subprocess
+
 import redis
 
 
@@ -49,11 +51,12 @@ class FootballDataAPI():
 
 	def get_club(self, competition_id):
 		r = self.redis
-		if not r.hexists("team_dict", 1):
+		if not r.hexists("team_dict", 66):
 			self.connection.request('GET',
 				'/v1/competitions/{}/teams'.format(competition_id),
 				None, self.headers )
-			response = json.loads(self.connection.getresponse().read().decode())
+			response = json.loads(
+				self.connection.getresponse().read().decode())
 
 			team_dict = dict()
 			for team in response["teams"]:
@@ -66,7 +69,7 @@ class FootballDataAPI():
 			return self.redis.hgetall("team_dict")
 
 		print("Hkey True", self.redis.hgetall("team_dict"))
-		return response
+		return self.redis.hgetall("team_dict")
 
 
 FootballDataAPI().get_club(445)
