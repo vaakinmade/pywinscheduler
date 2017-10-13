@@ -15,11 +15,14 @@ class FootballDataAPI():
 		}
 
 		self.redis = redis.Redis(host="localhost", port=6379, db=0)
-
-		# start redis server
-		os.chdir("C:\Program Files\Redis")
-		process = subprocess.Popen("redis-server.exe")
 		
+		# start redis server if not alive
+		try:
+			self.redis.ping()
+		except redis.exceptions.ConnectionError:
+			os.chdir("C:\Program Files\Redis")
+			subprocess.Popen("redis-server.exe")
+				
 	def _current_matchday(self, competition_id):
 		self.connection.request('GET',
 			'/v1/competitions/{}/'.format(competition_id),
