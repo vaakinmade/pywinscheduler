@@ -1,5 +1,6 @@
 import http.client
 import json
+import os
 import subprocess
 
 import redis
@@ -15,6 +16,10 @@ class FootballDataAPI():
 
 		self.redis = redis.Redis(host="localhost", port=6379, db=0)
 
+		# start redis server
+		os.chdir("C:\Program Files\Redis")
+		process = subprocess.Popen("redis-server.exe")
+		
 	def _current_matchday(self, competition_id):
 		self.connection.request('GET',
 			'/v1/competitions/{}/'.format(competition_id),
@@ -62,14 +67,10 @@ class FootballDataAPI():
 			for team in response["teams"]:
 				team_dict[team.get('id')] = team.get('crestUrl')
 
-			self.redis.hmset("team_dict", team_dict)
-			self.redis.hgetall("team_dict")
+			r.hmset("team_dict", team_dict)
+			return r.hgetall("team_dict")
 
-			print("Hkey false", self.redis.hgetall("team_dict"))
-			return self.redis.hgetall("team_dict")
-
-		print("Hkey True", self.redis.hgetall("team_dict"))
-		return self.redis.hgetall("team_dict")
+		return r.hgetall("team_dict")
 
 
 FootballDataAPI().get_club(445)
