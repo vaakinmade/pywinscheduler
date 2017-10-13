@@ -33,7 +33,7 @@ class FootballDataAPI():
 		self.connection.request('GET',
 			'/v1/competitions/{}/fixtures?matchday={}'.format(
 			competition_id,
-			self._current_matchday(competition_id-1)
+			self._current_matchday(competition_id)-1
 			),
 			None, self.headers )
 		response = json.loads(self.connection.getresponse().read().decode())
