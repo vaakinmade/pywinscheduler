@@ -11,6 +11,8 @@ class FootballDataAPI():
 			'X-Response-Control': 'minified'
 		}
 
+		self.redis = redis.Redis(host="localhost", port=6379, db=0)
+
 	def _current_matchday(self, competition_id):
 		self.connection.request('GET',
 			'/v1/competitions/{}/'.format(competition_id),
@@ -45,13 +47,26 @@ class FootballDataAPI():
 		response = json.loads(self.connection.getresponse().read().decode())
 		return response
 
-	def get_club(self, club_id):
-		self.connection.request('GET',
-			'/v1/teams/{}'.format(club_id),
-			None, self.headers )
-		response = json.loads(self.connection.getresponse().read().decode())
-		print(response)
+	def get_club(self, competition_id):
+		r = self.redis
+		if not r.hexists("team_dict", 1):
+			self.connection.request('GET',
+				'/v1/competitions/{}/teams'.format(competition_id),
+				None, self.headers )
+			response = json.loads(self.connection.getresponse().read().decode())
+
+			team_dict = dict()
+			for team in response["teams"]:
+				team_dict[team.get('id')] = team.get('crestUrl')
+
+			self.redis.hmset("team_dict", team_dict)
+			self.redis.hgetall("team_dict")
+
+			print("Hkey false", self.redis.hgetall("team_dict"))
+			return self.redis.hgetall("team_dict")
+
+		print("Hkey True", self.redis.hgetall("team_dict"))
 		return response
 
 
-FootballDataAPI().get_club(66)
+FootballDataAPI().get_club(445)
