@@ -26,11 +26,10 @@ class HtmlHandler():
 			date_set.add(fixture_date)
 		return sorted(date_set)
 
-	def create_html_file(self, result_list, fixtures_list, team_fixtures_list):
-		#self.write_team_to_file(team_fixtures_list)
-		#self.write_epl_to_file(fixtures_list)
-		mode = "w"
-		self.write_to_file("Epl latest results", result_list, mode)
+	def create_html_file(self, fixtures, team_fixtures, results):
+		self.write_to_file("Epl latest results", results, mode="w")
+		self.write_to_file("Man Utd's upcomings", team_fixtures, mode="a")
+		self.write_to_file("Epl fixtures", fixtures, mode="a")
 
 	def write_to_file(self, title, list_dict, mode):
 		unique_dates = self.unique_dates(list_dict)
@@ -57,7 +56,7 @@ class HtmlHandler():
 							data_dict["homeTeamId"])
 						away_team_crest = FootballDataAPI().get_club(
 							data_dict["awayTeamId"])
-
+						
 						match_time = self.time_converter(data_dict.get('date'))
 						halftime = data_dict.get('result').get('halfTime')
 						
