@@ -30,7 +30,6 @@ class HtmlHandler():
 		#self.write_team_to_file(team_fixtures_list)
 		#self.write_epl_to_file(fixtures_list)
 		mode = "w"
-		#print(result_list)
 		self.write_to_file("Epl latest results", result_list, mode)
 
 	def write_to_file(self, title, list_dict, mode):
@@ -60,21 +59,20 @@ class HtmlHandler():
 							data_dict["awayTeamId"])
 
 						match_time = self.time_converter(data_dict.get('date'))
-						#print(match_time)
 						halftime = data_dict.get('result').get('halfTime')
 						
 						if halftime is None:
-							center_box = match_time, "", ""
-							#print(center_box)
+							center_box = datetime.strftime(match_time, "%H:%M"), "", ""
 						else:
 							goalsHT = data_dict['result'].get('goalsHomeTeam')
 							goalsAT = data_dict['result'].get('goalsAwayTeam')
 							center_box = goalsHT, " - ", goalsAT
 
 						outfile.write('''<tr>
-							<td>
+							<td align="right">
+							<span style="color:blue"><b>{0}</b></span>
+							&nbsp;&nbsp;
 							<img alt="crest" src={2} height="16" width="16">
-							&nbsp;&nbsp; <span style="color:blue"><b>{0}</b>
 							</td>
 							<td style="background-color:#e0e0e0">
 								<strong>
@@ -211,8 +209,8 @@ class HtmlHandler():
 if __name__ == '__main__':
 	from footyapi import FootballDataAPI
 	obj = FootballDataAPI()
-	fixtures_list = obj.retrieve_matchday_fixtures(445)
-	team_fixtures_list = obj.single_team_fixtures(66)
-	result_list = obj.latest_competition_results(445)
-	HtmlHandler().create_html_file(result_list, fixtures_list, team_fixtures_list)
+	HtmlHandler().create_html_file(obj.retrieve_matchday_fixtures(445),
+									obj.single_team_fixtures(66),
+									obj.latest_competition_results(445)
+									)
 
