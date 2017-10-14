@@ -33,6 +33,7 @@ class HtmlHandler():
 
 	def write_to_file(self, title, list_dict, mode):
 		unique_dates = self.unique_dates(list_dict)
+		clubs = FootballDataAPI().get_clubs(445)
 
 		with open(self.html_file, mode=mode) as outfile:
 			outfile.write('''
@@ -52,11 +53,12 @@ class HtmlHandler():
 				)
 				for data_dict in list_dict["fixtures"]:
 					if title_date == self.extract_date(data_dict.get('date')):
-						home_team_crest = FootballDataAPI().get_club(
-							data_dict["homeTeamId"])
-						away_team_crest = FootballDataAPI().get_club(
-							data_dict["awayTeamId"])
-												
+						home_id = str(data_dict['homeTeamId'])
+						away_id = str(data_dict['awayTeamId'])
+
+						home_team_crest = clubs.get(home_id.encode('utf-8'))
+						away_team_crest = clubs.get(away_id.encode('utf-8'))
+						
 						match_time = datetime.strftime(
 							self.time_converter(data_dict.get('date')),
 							"%H:%M")
@@ -91,8 +93,8 @@ class HtmlHandler():
 							</tr>\n'''.format(
 							data_dict.get('homeTeamName').replace(" FC", ""),
 							data_dict.get('awayTeamName').replace(" FC", ""),
-							home_team_crest.get('crestUrl'),
-							away_team_crest.get('crestUrl'),
+							home_team_crest.decode('utf-8'),
+							away_team_crest.decode('utf-8'),
 							*center_box
 							)
 						)
