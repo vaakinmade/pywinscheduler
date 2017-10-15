@@ -33,7 +33,8 @@ class HtmlHandler():
 
 	def write_to_file(self, title, list_dict, mode):
 		unique_dates = self.unique_dates(list_dict)
-		clubs = FootballDataAPI().get_clubs(445)
+		competition_id = list_dict["fixtures"][0]["competitionId"]
+		clubs = FootballDataAPI().get_clubs(competition_id)
 
 		with open(self.html_file, mode=mode) as outfile:
 			outfile.write('''
@@ -53,11 +54,21 @@ class HtmlHandler():
 				)
 				for data_dict in list_dict["fixtures"]:
 					if title_date == self.extract_date(data_dict.get('date')):
-						home_id = str(data_dict['homeTeamId'])
-						away_id = str(data_dict['awayTeamId'])
+						home_id = data_dict['homeTeamId']
+						away_id = data_dict['awayTeamId']
 
-						home_team_crest = clubs.get(home_id.encode('utf-8'))
-						away_team_crest = clubs.get(away_id.encode('utf-8'))
+						# attempt to retrieve crest from crest list
+						home_crest = clubs.get(str(home_id).encode())
+						away_crest = clubs.get(str(away_id).encode())
+
+						# make individual calls if crest list doesn't contain crest
+						if home_crest is None:
+							home_crest = FootballDataAPI().get_club(
+								home_id).get('crestUrl')
+
+						if away_crest is None:
+							away_crest = FootballDataAPI().get_club(
+								away_id).get('crestUrl')
 						
 						match_time = datetime.strftime(
 							self.time_converter(data_dict.get('date')),
@@ -67,9 +78,9 @@ class HtmlHandler():
 						if halftime is None:
 							center_box = match_time, "", ""
 						else:
-							goalsHT = data_dict['result'].get('goalsHomeTeam')
-							goalsAT = data_dict['result'].get('goalsAwayTeam')
-							center_box = goalsHT, " - ", goalsAT
+							goals_ht = data_dict['result'].get('goalsHomeTeam')
+							goals_at = data_dict['result'].get('goalsAwayTeam')
+							center_box = goals_ht, " - ", goals_at
 
 						outfile.write('''<tr>
 							<td align="right">
@@ -93,8 +104,8 @@ class HtmlHandler():
 							</tr>\n'''.format(
 							data_dict.get('homeTeamName').replace(" FC", ""),
 							data_dict.get('awayTeamName').replace(" FC", ""),
-							home_team_crest.decode('utf-8'),
-							away_team_crest.decode('utf-8'),
+							home_crest.decode('utf-8'),
+							away_crest.decode('utf-8'),
 							*center_box
 							)
 						)
