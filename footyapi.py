@@ -22,6 +22,7 @@ class FootballDataAPI():
 		except redis.exceptions.ConnectionError:
 			os.chdir("C:\Program Files\Redis")
 			subprocess.Popen("redis-server.exe")
+			os.chdir("C:\\Users\Kinshade\Documents\Web Devs\Django_Apps\pywinscheduler")
 				
 	def _current_matchday(self, competition_id):
 		self.connection.request('GET',
@@ -57,9 +58,9 @@ class FootballDataAPI():
 		response = json.loads(self.connection.getresponse().read().decode())
 		return response
 
-	def get_club(self, competition_id):
+	def get_clubs(self, competition_id):
 		r = self.redis
-		if not r.hexists("team_dict", 66):
+		if not r.hexists(competition_id, 66):
 			self.connection.request('GET',
 				'/v1/competitions/{}/teams'.format(competition_id),
 				None, self.headers )
@@ -70,10 +71,17 @@ class FootballDataAPI():
 			for team in response["teams"]:
 				team_dict[team.get('id')] = team.get('crestUrl')
 
-			r.hmset("team_dict", team_dict)
-			return r.hgetall("team_dict")
+			r.hmset(competition_id, team_dict)
+			return r.hgetall(competition_id)
 
-		return r.hgetall("team_dict")
+		return r.hgetall(competition_id)
+
+	def get_club(self, club_id):
+		self.connection.request('GET',
+				'/v1/teams/{}'.format(club_id),
+				None, self.headers )
+		response = json.loads(self.connection.getresponse().read().decode())
+		return response
 
 
-FootballDataAPI().get_club(445)
+FootballDataAPI().get_clubs(445)
