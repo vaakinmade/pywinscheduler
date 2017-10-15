@@ -65,10 +65,14 @@ class HtmlHandler():
 						if home_crest is None:
 							home_crest = FootballDataAPI().get_club(
 								home_id).get('crestUrl')
+						else:
+							home_crest = home_crest.decode()
 
 						if away_crest is None:
 							away_crest = FootballDataAPI().get_club(
 								away_id).get('crestUrl')
+						else:
+							away_crest = away_crest.decode()
 						
 						match_time = datetime.strftime(
 							self.time_converter(data_dict.get('date')),
@@ -104,8 +108,8 @@ class HtmlHandler():
 							</tr>\n'''.format(
 							data_dict.get('homeTeamName').replace(" FC", ""),
 							data_dict.get('awayTeamName').replace(" FC", ""),
-							home_crest.decode('utf-8'),
-							away_crest.decode('utf-8'),
+							home_crest,
+							away_crest,
 							*center_box
 							)
 						)
