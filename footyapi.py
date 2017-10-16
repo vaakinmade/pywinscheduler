@@ -72,8 +72,8 @@ class FootballDataAPI():
 				team_dict[team.get('id')] = team.get('crestUrl')
 
 			r.hmset(competition_id, team_dict)
-			return r.hgetall(competition_id)
 
+			return r.hgetall(competition_id)
 		return r.hgetall(competition_id)
 
 	def get_club(self, club_id):
@@ -84,4 +84,4 @@ class FootballDataAPI():
 		return response
 
 
-FootballDataAPI().get_clubs(445)
+#FootballDataAPI().get_clubs(445)
