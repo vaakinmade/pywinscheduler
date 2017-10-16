@@ -18,11 +18,12 @@ class EmailService():
 	def read_message(self):
 		with open(self.msg_file, mode = "rb") as message:
 			msg = MIMEText(message.read(), "html", "html")
-
+			print ("Message", message.read(), "Message Ended")
 		msg["Subject"] = "EPL Footy Alert {}".format(datetime.now().strftime("%Y-%m-%d %H:%M"))
 		msg["From"] = "vickeyakinmade22@gmail.com"
-		msg["To"] = 'vickeyakinmade22@gmail.com'
-		return msg
+		msg["To"] = "vickeyakinmade22@gmail.com"
+		
+		#return msg
 
 	def send_email(self):
 		server = smtplib.SMTP('smtp.gmail.com', port=587)
@@ -35,11 +36,12 @@ class EmailService():
 
 # sudo test for EmailService 
 if __name__ == '__main__':
-    from footyapi import FootballDataAPI
-    from htmlhandler import HtmlHandler #import create_html_file 
-    email_file = "Footy_Email_File.html"
-    obj = FootballDataAPI()
-	HtmlHandler().create_html_file(obj.retrieve_matchday_fixtures(445),
-									obj.single_team_fixtures(66),
-									obj.latest_competition_results(445))
-    EmailService(email_file).send_email()
+	from footyapi import FootballDataAPI
+	from htmlhandler import HtmlHandler 
+	email_file = "Footy_Email_File.html"
+	#obj = FootballDataAPI()
+	# HtmlHandler().create_html_file(obj.retrieve_matchday_fixtures(445),
+	# 								obj.single_team_fixtures(66),
+	# 								obj.latest_competition_results(445))
+	#EmailService(email_file).send_email()
+	EmailService(email_file).read_message()
