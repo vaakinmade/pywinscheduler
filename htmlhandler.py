@@ -26,6 +26,22 @@ class HtmlHandler():
 			date_set.add(fixture_date)
 		return sorted(date_set)
 
+	def team_crest(self, competition_id, home_id, away_id):
+		clubs = FootballDataAPI().get_clubs(competition_id)
+
+		# attempt to retrieve crest from crest list
+		home_crest = clubs.get(str(home_id).encode())
+		away_crest = clubs.get(str(away_id).encode())
+
+		home_crest = home_crest.decode().replace('http', 'https')
+		away_crest = away_crest.decode().replace('http', 'https')
+		
+		home_crest = home_crest.replace('httpss', 'https')
+		away_crest = away_crest.replace('httpss', 'https')
+
+		return home_crest,	away_crest
+
+
 	def create_html_file(self, fixtures, team_fixtures, results):
 		self.write_to_file("Epl latest results", results, mode="w")
 		self.write_to_file("Man Utd's upcomings", team_fixtures, mode="a")
@@ -33,9 +49,7 @@ class HtmlHandler():
 
 	def write_to_file(self, title, list_dict, mode):
 		unique_dates = self.unique_dates(list_dict)
-		competition_id = list_dict["fixtures"][0]["competitionId"]
-		clubs = FootballDataAPI().get_clubs(competition_id)
-
+		
 		with open(self.html_file, mode=mode) as outfile:
 			outfile.write('''
 				<html>
@@ -54,25 +68,10 @@ class HtmlHandler():
 				)
 				for data_dict in list_dict["fixtures"]:
 					if title_date == self.extract_date(data_dict.get('date')):
-						home_id = data_dict['homeTeamId']
-						away_id = data_dict['awayTeamId']
-
-						# attempt to retrieve crest from crest list
-						home_crest = clubs.get(str(home_id).encode())
-						away_crest = clubs.get(str(away_id).encode())
-
-						# make individual calls if crest list doesn't contain crest
-						if home_crest is None:
-							home_crest = FootballDataAPI().get_club(
-								home_id).get('crestUrl')
-						else:
-							home_crest = home_crest.decode()
-
-						if away_crest is None:
-							away_crest = FootballDataAPI().get_club(
-								away_id).get('crestUrl')
-						else:
-							away_crest = away_crest.decode()
+						competition_id = data_dict.get('competitionId')
+						home_crest, away_crest = self.team_crest(competition_id,
+							data_dict.get('homeTeamId'),
+							data_dict.get('awayTeamId'))
 						
 						match_time = datetime.strftime(
 							self.time_converter(data_dict.get('date')),
