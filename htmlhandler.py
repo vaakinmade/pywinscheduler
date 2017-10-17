@@ -41,6 +41,8 @@ class HtmlHandler():
 
 		return home_crest,	away_crest
 
+	def svg2png(self, svg_url):
+		pass
 
 	def create_html_file(self, fixtures, team_fixtures, results):
 		self.write_to_file("Epl latest results", results, mode="w")
@@ -89,7 +91,7 @@ class HtmlHandler():
 							<td align="right">
 							<span style="color:blue"><b>{0}</b></span>
 							&nbsp;&nbsp;
-							<img alt="crest" src={2} height="16" width="16">
+							<img alt="crest" src="{2}" height="16" width="16">
 							</td>
 							<td style="background-color:#e0e0e0">
 								<strong>
@@ -101,7 +103,7 @@ class HtmlHandler():
 								</strong>
 							</td>
 							<td align="left">
-							<img alt="crest" src={3} height="16" width="16">
+							<img alt="crest" src="{3}" height="16" width="16">
 							&nbsp;&nbsp; <span style="color:blue"><b>{1}</b>
 							</td>
 							</tr>\n'''.format(
