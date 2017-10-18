@@ -2,6 +2,12 @@ from datetime import datetime
 import iso8601
 from dateutil import tz
 
+# installed pycairo using windows binary wheel file
+#installed cffi to install cairocffi
+# installed cairocffi to install cairosvg
+
+import cairosvg
+
 from footyapi import FootballDataAPI
 
 
@@ -26,6 +32,10 @@ class HtmlHandler():
 			date_set.add(fixture_date)
 		return sorted(date_set)
 
+	def svg2png(self, svg_url):
+		png_file = cairosvg.svg2png(url=svg_url, write_to="/img/output.png")
+		return png_file
+
 	def team_crest(self, competition_id, home_id, away_id):
 		clubs = FootballDataAPI().get_clubs(competition_id)
 
@@ -39,10 +49,8 @@ class HtmlHandler():
 		home_crest = home_crest.replace('httpss', 'https')
 		away_crest = away_crest.replace('httpss', 'https')
 
-		return home_crest,	away_crest
-
-	def svg2png(self, svg_url):
-		pass
+		print(self.svg2png(home_crest), self.svg2png(away_crest))
+		return self.svg2png(home_crest), self.svg2png(away_crest)
 
 	def create_html_file(self, fixtures, team_fixtures, results):
 		self.write_to_file("Epl latest results", results, mode="w")
@@ -126,4 +134,5 @@ if __name__ == '__main__':
 									obj.single_team_fixtures(66),
 									obj.latest_competition_results(445)
 									)
+
 
