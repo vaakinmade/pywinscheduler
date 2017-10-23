@@ -4,7 +4,6 @@ import os
 import subprocess
 
 import redis
-import cairosvg
 
 
 class FootballDataAPI():
@@ -76,16 +75,3 @@ class FootballDataAPI():
 
 			return r.hgetall(competition_id)
 		return r.hgetall(competition_id)
-
-	def get_club(self, club_id):
-		self.connection.request('GET',
-				'/v1/teams/{}'.format(club_id),
-				None, self.headers )
-		response = json.loads(self.connection.getresponse().read().decode())
-		return response
-
-	def svg2png(self, svg_url):
-		png_file = cairosvg.svg2png(url=svg_url, write_to="/tmp/output.png")
-		#return png_file
-
-#FootballDataAPI().get_clubs(445)
