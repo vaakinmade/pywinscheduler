@@ -18,10 +18,10 @@ class Crest():
 
 	@classmethod
 	def upload_to_s3(cls, image_file):
-		S3_ACCESS_KEY = config('AWS_ACCESS_KEY_ID', cast=str)
-		S3_SECRET_KEY = config('AWS_SECRET_ACCESS_KEY', cast=str)
-		S3_BUCKET = config('AWS_STORAGE_BUCKET_NAME', cast=str)
-		HOST_REGION = "s3.us-east-2.amazonaws.com"
+		# S3_ACCESS_KEY = config('AWS_ACCESS_KEY_ID', cast=str)
+		# S3_SECRET_KEY = config('AWS_SECRET_ACCESS_KEY', cast=str)
+		# S3_BUCKET = config('AWS_STORAGE_BUCKET_NAME', cast=str)
+		# HOST_REGION = "s3.us-east-2.amazonaws.com"
 
 
 		f = open(image_file, 'rb')
@@ -39,41 +39,48 @@ class Crest():
 		s3_file = "https://s3.us-east-2.amazonaws.com/{}/crests/{}".format(
 			cls.S3_BUCKET,
 			filename_base[-1])
+		print("s3 file", s3_file)
 		return s3_file
 
-	@classmethod
-	def svg2png(cls, svg_url, team_id):
-		png_file = cairosvg.svg2png(url=svg_url,
-			write_to="img/crests/{}.png".format(team_id))
-		result = cls.upload_to_s3("img/crests/{}.png".format(team_id))
+	def svg2png(self, svg_url, team_id):
+		print("svg", svg_url, team_id)
+		if svg_url[-3:] is "svg":
+			print("svg_url ending", svg_url[-3:])
+			png_file = cairosvg.svg2png(url=svg_url,
+				write_to="img/crests/{}.png".format(team_id))
+
+		result = "blah"#type(self).upload_to_s3("img/crests/{}.png".format(team_id))
+		1/0
 		return result
 
-	@classmethod
-	def team_crest(cls, competition_id, home_id, away_id):
+	def team_crest(self, competition_id, home_id, away_id):
 		home_crest = os.path.isfile("img/crests/{}.png".format(home_id))
 		away_crest = os.path.isfile("img/crests/{}.png".format(away_id))
 
-		if home_crest and away_crest:
+		if home_crest:
 			s3_home_url = "https://{}/{}/crests/{}.png".format(
-			cls.HOST_REGION,
-			cls.S3_BUCKET,
+			type(self).HOST_REGION,
+			type(self).S3_BUCKET,
 			home_id)
-
-			s3_away_url = "https://{}/{}/crests/{}.png".format(
-			cls.HOST_REGION,
-			cls.S3_BUCKET,
-			away_id)
-			
-		if home_crest is False:
+		else:
 			print("home crest is absent... processing new one")
+			print(home_id)
 			clubs = FootballDataAPI().get_clubs(competition_id)
 			svg_url = clubs.get(str(home_id).encode('utf-8'))
-			s3_home_url = cls.svg2png(svg_url.decode('utf-8'), home_id)
-						
-		if away_crest is False:
+			print("svg", svg_url)
+			s3_home_url = self.svg2png(svg_url.decode('utf-8'), home_id)
+		
+		if away_crest:
+			s3_away_url = "https://{}/{}/crests/{}.png".format(
+			type(self).HOST_REGION,
+			type(self).S3_BUCKET,
+			away_id)
+		else:
 			print("away crest is absent... processing new one")
+			print(away_id)
 			clubs = FootballDataAPI().get_clubs(competition_id)
-			svg_url = clubs.get(str(home_id).encode('utf-8'))
-			s3_away_url = cls.svg2png(svg_url.decode('utf-8'), away_id)
+			svg_url = clubs.get(str(away_id).encode('utf-8'))
+			print("svg", svg_url)
+			s3_away_url = self.svg2png(svg_url.decode('utf-8'), away_id)
 				
 		return s3_home_url, s3_away_url
