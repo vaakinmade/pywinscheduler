@@ -1,12 +1,8 @@
 from datetime import datetime
 import iso8601
 from dateutil import tz
+from crest import Crest
 
-# installed pycairo using windows binary wheel file
-#installed cffi to install cairocffi
-# installed cairocffi to install cairosvg
-
-import cairosvg
 
 from footyapi import FootballDataAPI
 
@@ -31,26 +27,6 @@ class HtmlHandler():
 			fixture_date = self.extract_date(item.get('date'))
 			date_set.add(fixture_date)
 		return sorted(date_set)
-
-	def svg2png(self, svg_url):
-		png_file = cairosvg.svg2png(url=svg_url, write_to="/img/output.png")
-		return png_file
-
-	def team_crest(self, competition_id, home_id, away_id):
-		clubs = FootballDataAPI().get_clubs(competition_id)
-
-		# attempt to retrieve crest from crest list
-		home_crest = clubs.get(str(home_id).encode())
-		away_crest = clubs.get(str(away_id).encode())
-
-		home_crest = home_crest.decode().replace('http', 'https')
-		away_crest = away_crest.decode().replace('http', 'https')
-		
-		home_crest = home_crest.replace('httpss', 'https')
-		away_crest = away_crest.replace('httpss', 'https')
-
-		print(self.svg2png(home_crest), self.svg2png(away_crest))
-		return self.svg2png(home_crest), self.svg2png(away_crest)
 
 	def create_html_file(self, fixtures, team_fixtures, results):
 		self.write_to_file("Epl latest results", results, mode="w")
@@ -79,7 +55,7 @@ class HtmlHandler():
 				for data_dict in list_dict["fixtures"]:
 					if title_date == self.extract_date(data_dict.get('date')):
 						competition_id = data_dict.get('competitionId')
-						home_crest, away_crest = self.team_crest(competition_id,
+						home_crest, away_crest = Crest().team_crest(competition_id,
 							data_dict.get('homeTeamId'),
 							data_dict.get('awayTeamId'))
 						
@@ -99,7 +75,7 @@ class HtmlHandler():
 							<td align="right">
 							<span style="color:blue"><b>{0}</b></span>
 							&nbsp;&nbsp;
-							<img alt="crest" src="{2}" height="16" width="16">
+							<img src="{2}" height="16" width="16">
 							</td>
 							<td style="background-color:#e0e0e0">
 								<strong>
@@ -111,7 +87,7 @@ class HtmlHandler():
 								</strong>
 							</td>
 							<td align="left">
-							<img alt="crest" src="{3}" height="16" width="16">
+							<img src="{3}" height="16" width="16">
 							&nbsp;&nbsp; <span style="color:blue"><b>{1}</b>
 							</td>
 							</tr>\n'''.format(
