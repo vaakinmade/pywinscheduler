@@ -18,12 +18,6 @@ class Crest():
 
 	@classmethod
 	def upload_to_s3(cls, image_file):
-		# S3_ACCESS_KEY = config('AWS_ACCESS_KEY_ID', cast=str)
-		# S3_SECRET_KEY = config('AWS_SECRET_ACCESS_KEY', cast=str)
-		# S3_BUCKET = config('AWS_STORAGE_BUCKET_NAME', cast=str)
-		# HOST_REGION = "s3.us-east-2.amazonaws.com"
-
-
 		f = open(image_file, 'rb')
 		conn = boto.connect_s3(cls.S3_ACCESS_KEY,
 			cls.S3_SECRET_KEY,
@@ -44,13 +38,22 @@ class Crest():
 
 	def svg2png(self, svg_url, team_id):
 		print("svg", svg_url, team_id)
-		if svg_url[-3:] is "svg":
+		if svg_url[-3:].lower() == "svg":
 			print("svg_url ending", svg_url[-3:])
-			png_file = cairosvg.svg2png(url=svg_url,
-				write_to="img/crests/{}.png".format(team_id))
-
-		result = "blah"#type(self).upload_to_s3("img/crests/{}.png".format(team_id))
-		1/0
+			try:
+				cairosvg.svg2png(url=svg_url,
+					write_to="img/crests/{}.png".format(team_id))
+				result = self.upload_to_s3("img/crests/{}.png".format(team_id))
+			except:
+				print("Exception Raised. SVG to PNG conversion failed!")
+				result = None
+		elif svg_url[-3:].lower() == "png":
+			result = self.upload_to_s3("img/crests/{}.png".format(team_id))
+			print("file is PNG not SVG")
+		else:
+			# Return none if expected file type != png || svg
+			print("Excepted file type is SVG or PNG")
+			result = None
 		return result
 
 	def team_crest(self, competition_id, home_id, away_id):
@@ -84,3 +87,5 @@ class Crest():
 			s3_away_url = self.svg2png(svg_url.decode('utf-8'), away_id)
 				
 		return s3_home_url, s3_away_url
+
+Crest().team_crest(445, 61, 6000)
