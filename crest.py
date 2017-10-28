@@ -2,6 +2,7 @@
 #installed cffi to install cairocffi
 # installed cairocffi to install cairosvg
 import os
+import requests
 from footyapi import FootballDataAPI
 
 import cairosvg
@@ -33,26 +34,22 @@ class Crest():
 		s3_file = "https://s3.us-east-2.amazonaws.com/{}/crests/{}".format(
 			cls.S3_BUCKET,
 			filename_base[-1])
-		print("s3 file", s3_file)
 		return s3_file
 
 	def svg2png(self, svg_url, team_id):
-		print("svg", svg_url, team_id)
 		if svg_url[-3:].lower() == "svg":
-			print("svg_url ending", svg_url[-3:])
 			try:
 				cairosvg.svg2png(url=svg_url,
 					write_to="img/crests/{}.png".format(team_id))
 				result = self.upload_to_s3("img/crests/{}.png".format(team_id))
 			except:
 				print("Exception Raised. SVG to PNG conversion failed!")
-				result = None
+				result = svg_url
 		elif svg_url[-3:].lower() == "png":
-			result = self.upload_to_s3("img/crests/{}.png".format(team_id))
-			print("file is PNG not SVG")
+			result = svg_url
 		else:
 			# Return none if expected file type != png || svg
-			print("Excepted file type is SVG or PNG")
+			print("File is neither is SVG or PNG")
 			result = None
 		return result
 
@@ -66,11 +63,8 @@ class Crest():
 			type(self).S3_BUCKET,
 			home_id)
 		else:
-			print("home crest is absent... processing new one")
-			print(home_id)
 			clubs = FootballDataAPI().get_clubs(competition_id)
 			svg_url = clubs.get(str(home_id).encode('utf-8'))
-			print("svg", svg_url)
 			s3_home_url = self.svg2png(svg_url.decode('utf-8'), home_id)
 		
 		if away_crest:
@@ -79,13 +73,8 @@ class Crest():
 			type(self).S3_BUCKET,
 			away_id)
 		else:
-			print("away crest is absent... processing new one")
-			print(away_id)
 			clubs = FootballDataAPI().get_clubs(competition_id)
 			svg_url = clubs.get(str(away_id).encode('utf-8'))
-			print("svg", svg_url)
 			s3_away_url = self.svg2png(svg_url.decode('utf-8'), away_id)
 				
 		return s3_home_url, s3_away_url
-
-Crest().team_crest(445, 61, 6000)
