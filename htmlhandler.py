@@ -9,7 +9,7 @@ from footyapi import FootballDataAPI
 
 class HtmlHandler():
 	def __init__(self):
-		self.html_file = "Footy_Email_File.html"
+		self.html_file = "Email_File.html"
 
 	def time_converter(self, date_time):
 		to_zone = tz.tzlocal()
