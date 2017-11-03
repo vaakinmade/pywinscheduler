@@ -8,7 +8,6 @@ Run the scheduled task as a windows service
 from footyapi import FootballDataAPI
 from htmlhandler import HtmlHandler
 from emailserver import EmailService
-from collections import OrderedDict
 import schedule
 
 # Windows Service imports
@@ -18,8 +17,8 @@ import win32event
 
 
 class FootyAlertTaskSvc(win32serviceutil.ServiceFramework):  
-    _svc_name_ = "PyFootyAlert"    
-    _svc_display_name_ = "Python Scheduling Service for footy inboxer"   
+    _svc_name_ = "FootyAlertTaskSvc"    
+    _svc_display_name_ = "Python Scheduling Service for football inboxer"   
     _svc_description_ = "This Python service schedules tasks"  
       
     def __init__(self, args):  
@@ -57,4 +56,4 @@ class FootyAlertTaskSvc(win32serviceutil.ServiceFramework):
         win32event.SetEvent(self.hWaitStop)  
           
 if __name__ == '__main__':  
-    win32serviceutil.HandleCommandLine(PythonTaskSvc)
+    win32serviceutil.HandleCommandLine(FootyAlertTaskSvc)
