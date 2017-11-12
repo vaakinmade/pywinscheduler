@@ -1,5 +1,5 @@
 # installed pycairo using windows binary wheel file
-#installed cffi to install cairocffi
+# installed cffi to install cairocffi
 # installed cairocffi to install cairosvg
 import os
 import requests
@@ -66,7 +66,7 @@ class Crest():
 			clubs = FootballDataAPI().get_clubs(competition_id)
 			svg_url = clubs.get(str(home_id).encode('utf-8'))
 			s3_home_url = self.svg2png(svg_url.decode('utf-8'), home_id)
-		
+					
 		if away_crest:
 			s3_away_url = "https://{}/{}/crests/{}.png".format(
 			type(self).HOST_REGION,
@@ -76,5 +76,5 @@ class Crest():
 			clubs = FootballDataAPI().get_clubs(competition_id)
 			svg_url = clubs.get(str(away_id).encode('utf-8'))
 			s3_away_url = self.svg2png(svg_url.decode('utf-8'), away_id)
-				
+						
 		return s3_home_url, s3_away_url
