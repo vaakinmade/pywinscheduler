@@ -4,6 +4,8 @@ Got sick of repeatedly going on the bbc results page so I wrote an EPL and Man U
 Will be looking to write in some international fixture support as well, especially since Nigeria's punched their Russia '18 ticket.
 
 ## Steps
+
+## Steps
 1. Request is fired off to football-data.org's amazing API, gets a bunch of data we are interested in.
 2. JSON response is then crunched and undergoes timezone conversion operations.
 3. Large response datasets are stored in a redis hash so as to adhere to football-data's throttling limitations, and also for performance reasons.
