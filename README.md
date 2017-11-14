@@ -3,7 +3,34 @@ Got sick of repeatedly going on the bbc results page so I wrote an EPL and Man U
 
 Will be looking to write in some international fixture support as well, especially since Nigeria's punched their Russia '18 ticket.
 
-## Steps
+## Installation
+[Python 3.4+](https://www.python.org/downloads/) is required.
+
+Clone the git repo
+```
+git clone https://github.com/vaakinmade/footy-alert.git
+```
+
+### Dependencies
+As they are a few dependencies this application uses, it isn't advisable to let them roam freely in your universal python path. Be sure to activate a virtualenv before proceeding beyond this point. See [virtualenv](https://docs.python.org/3/library/venv.html) to get cracking.
+#### 1. Pywin32
+The win32 API for writing windows os applications, are notoriously tricky to get going for python. However, you are sure to avoid murky waters if you follow this guide.
+
+##### Using a .whl file
+Download wheel files from [Pypi](https://pypi.python.org/pypi/pypiwin32/219) for versions < 3.6. Wheel files for 3.6+ can found [here](https://pypi.python.org/pypi/pypiwin32). Be sure that your .whl version isn't only appropriate for the python version but also its bit (32 or 64) version to avoid errors. Confirm the bit version in the first line of the banner in your python shell.
+
+Navigate to the .whl file via cmd prompt, and install it using pip
+```python
+pip install pypiwin32-219-cp34-none-win_amd64
+```
+
+From within the confinements of your virtualenv, install the dependencies from the requirements file
+```
+pip install -r requirements.txt
+```
+#### Pycairo inst
+
+## 
 
 ## Steps
 1. Request is fired off to football-data.org's amazing API, gets a bunch of data we are interested in.
