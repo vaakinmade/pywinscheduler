@@ -1,3 +1,4 @@
+boto==2.48.0
 cairocffi==0.8.0
 CairoSVG==2.1.1
 certifi==2017.7.27.1
@@ -10,13 +11,12 @@ idna==2.6
 iso8601==0.1.12
 multi-key-dict==2.0.3
 olefile==0.44
-pbr==3.1.1
 pdfrw==0.4
 Pillow==4.3.0
-pprint==0.1
 pycairo==1.15.2
 pycparser==2.18
 Pyphen==0.9.4
+pypiwin32==219
 python-dateutil==2.6.1
 python-decouple==3.1
 python-jenkins==0.4.15
@@ -25,7 +25,6 @@ requests==2.18.4
 schedule==0.4.3
 six==1.10.0
 tinycss2==0.6.1
-tinys3==0.1.12
 urllib3==1.22
 WeasyPrint==0.41
 webencodings==0.5.1
