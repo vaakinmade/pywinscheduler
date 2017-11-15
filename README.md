@@ -13,7 +13,7 @@ git clone https://github.com/vaakinmade/footy-alert.git
 
 ### Dependencies
 
-##### Pycairo
+#### Pycairo
 Pycairo is required by cairosvg which this application uses to convert the football team crest images from svg to png. Using Christopher Gohlke's [libraries](https://www.lfd.uci.edu/~gohlke/pythonlibs/), download the appropriate pycairo .whl file for your python version and bit version. Confirm your python's bit version from the welcome banner in the python shell.
 
 From the confines of your virtualenv, install the pycairo .whl file.
