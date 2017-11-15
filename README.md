@@ -12,25 +12,20 @@ git clone https://github.com/vaakinmade/footy-alert.git
 ```
 
 ### Dependencies
-As they are a few dependencies this application uses, it isn't advisable to let them roam freely in your universal python path. Be sure to activate a virtualenv before proceeding beyond this point. See [virtualenv](https://docs.python.org/3/library/venv.html) to get cracking.
-#### 1. Pywin32
-The win32 API for writing windows os applications, are notoriously tricky to get going for python. However, you are sure to avoid murky waters if you follow this guide.
 
-##### Using a .whl file
-Download wheel files from [Pypi](https://pypi.python.org/pypi/pypiwin32/219) for versions < 3.6. Wheel files for 3.6+ can found [here](https://pypi.python.org/pypi/pypiwin32). Be sure that your .whl version isn't only appropriate for the python version but also its bit (32 or 64) version to avoid errors. Confirm the bit version in the first line of the banner in your python shell.
+##### Pycairo
+Pycairo is required by cairosvg which this application uses to convert the football team crests images from svg to png. Using Christopher Gohlke's [libraries](https://www.lfd.uci.edu/~gohlke/pythonlibs/), download the appropriate pycairo .whl file for python version and bit version. Confirm your python bit version from the welcome banner in the python shell.
 
-Navigate to the .whl file via cmd prompt, and install it using pip
+From the confines of your virtualenv, install the .whl file
 ```python
-pip install pypiwin32-219-cp34-none-win_amd64
+pip install pycairo-1.15.2-cp34-cp34m-win_amd64.whl
 ```
 
-From within the confinements of your virtualenv, install the dependencies from the requirements file
+Install the other dependencies
 ```
 pip install -r requirements.txt
 ```
-#### Pycairo inst
 
-## 
 
 ## Steps
 1. Request is fired off to football-data.org's amazing API, gets a bunch of data we are interested in.
