@@ -42,7 +42,7 @@ class FootyAlertTaskSvc(win32serviceutil.ServiceFramework):
 			EmailService(email_file).send_email()
         
 		#schedule.every().hour.do(job)
-		schedule.every(1).minutes.do(job)   # for dev use 1 minute
+		schedule.every(5).minutes.do(job)   # for dev use 1 minute
         
 		rc = None
 		while rc != win32event.WAIT_OBJECT_0:
