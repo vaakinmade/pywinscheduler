@@ -14,17 +14,21 @@ git clone https://github.com/vaakinmade/footy-alert.git
 ### Dependencies
 
 ##### Pycairo
-Pycairo is required by cairosvg which this application uses to convert the football team crests images from svg to png. Using Christopher Gohlke's [libraries](https://www.lfd.uci.edu/~gohlke/pythonlibs/), download the appropriate pycairo .whl file for python version and bit version. Confirm your python bit version from the welcome banner in the python shell.
+Pycairo is required by cairosvg which this application uses to convert the football team crest images from svg to png. Using Christopher Gohlke's [libraries](https://www.lfd.uci.edu/~gohlke/pythonlibs/), download the appropriate pycairo .whl file for your python version and bit version. Confirm your python's bit version from the welcome banner in the python shell.
 
-From the confines of your virtualenv, install the .whl file
+From the confines of your virtualenv, install the pycairo .whl file.
+
 ```python
-pip install pycairo-1.15.2-cp34-cp34m-win_amd64.whl
+pip install pycairo_file_name.whl
 ```
+The pycairo wheel file used by this application has been included in the root directory for your convenience. Note that it supports python 3.4 64 bit.
 
 Install the other dependencies
 ```
 pip install -r requirements.txt
 ```
+
+### Configuring gmail for FootyAlert
 
 
 ## Steps
