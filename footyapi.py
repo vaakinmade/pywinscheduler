@@ -60,8 +60,7 @@ class FootballDataAPI():
 
 	def get_clubs(self, competition_id):
 		r = self.redis
-		#if not r.hexists(competition_id, 66):
-		if True:
+		if not r.hexists(competition_id, 66):
 			self.connection.request('GET',
 				'/v1/competitions/{}/teams'.format(competition_id),
 				None, self.headers)
