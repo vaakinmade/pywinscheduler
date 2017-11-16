@@ -12,9 +12,8 @@ class HtmlHandler():
 		self.html_file = "Email_File.html"
 
 	def time_converter(self, date_time):
-		to_zone = tz.tzlocal()
 		utc = iso8601.parse_date(date_time)
-		local_time = utc.astimezone(to_zone)
+		local_time = utc.astimezone(tz.tzlocal())
 		return local_time
 
 	def extract_date(self, date_time):
@@ -22,11 +21,8 @@ class HtmlHandler():
 		return datetime.strftime(utc, "%d %b %y")
 
 	def unique_dates(self, list_dict):
-		date_set = set()
-		for item in list_dict["fixtures"]:
-			fixture_date = self.extract_date(item.get('date'))
-			date_set.add(fixture_date)
-		return sorted(date_set)
+		date = {self.extract_date(i['date']) for i in list_dict['fixtures']}
+		return sorted(date)
 
 	def create_html_file(self, fixtures, team_fixtures, results):
 		self.write_to_file("Epl latest results", results, mode="w")
