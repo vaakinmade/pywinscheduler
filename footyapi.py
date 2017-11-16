@@ -60,18 +60,16 @@ class FootballDataAPI():
 
 	def get_clubs(self, competition_id):
 		r = self.redis
-		if not r.hexists(competition_id, 66):
+		#if not r.hexists(competition_id, 66):
+		if True:
 			self.connection.request('GET',
 				'/v1/competitions/{}/teams'.format(competition_id),
-				None, self.headers )
+				None, self.headers)
 			response = json.loads(
 				self.connection.getresponse().read().decode())
 
-			team_dict = dict()
-			for team in response["teams"]:
-				team_dict[team.get('id')] = team.get('crestUrl')
-
+			team_dict = {t['id']: t['crestUrl'] for t in response['teams']}
+			
 			r.hmset(competition_id, team_dict)
-
 			return r.hgetall(competition_id)
 		return r.hgetall(competition_id)
