@@ -37,7 +37,7 @@ class Crest():
 		return s3_file
 
 	def svg2png(self, svg_url, team_id):
-		if svg_url[-3:].lower() == "svg":
+		if svg_url.endswith('svg'):
 			try:
 				cairosvg.svg2png(url=svg_url,
 					write_to="img/crests/{}.png".format(team_id))
@@ -45,7 +45,7 @@ class Crest():
 			except:
 				print("Exception Raised. SVG to PNG conversion failed!")
 				result = svg_url
-		elif svg_url[-3:].lower() == "png":
+		elif svg_url.endswith('png'):
 			result = svg_url
 		else:
 			# Return none if expected file type != png || svg
