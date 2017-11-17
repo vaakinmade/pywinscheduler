@@ -31,7 +31,7 @@ pip install -r requirements.txt
 ```
 
 ### Email (gmail) Configuration
-The `emailserver.py` is where email operations including composure and send-off occurs. Replace the default email address in this module with a valid email address. Since the `email_server.py` module attempts an email account sign-on, it becomes necessary that the account is configured to allow login from less secure apps. It is advisable that you create a fresh email account solely for this purpose as it may become compromised afterwards.
+The `emailserver.py` is where email operations including composure and send-off occurs. Replace the default email address in this module with a valid email address. Since the `email_server.py` module attempts an email account sign-on, it becomes necessary that the account is configured to allow login from **less secure apps**. It is advisable that you create a fresh email account solely for this purpose as it may become compromised afterwards.
 
 ### Turning on "Less secure apps" feature
 Once signed into the new gmail/google account, go to;
@@ -40,7 +40,7 @@ Once signed into the new gmail/google account, go to;
 Toggle the button to turn the feature on.
 
 ### Configuring the email's password 
-In the `emailserver.py`, the gmail password (GMAIL_PWD), is retrieved from `gmail_key.py` which has been further decoupled to avoid inadequate exposure. Be sure to always use python decouple when dealing with secret keys, api auths, passwords etc in files that end up online. See [python decouple](https://pypi.python.org/pypi/python-decouple] to get started)
+In the `emailserver.py`, the gmail password (GMAIL_PWD), is retrieved from `gmail_key.py` which has been further decoupled to avoid inadequate exposure. Be sure to always use python decouple when dealing with secret keys, api auths, passwords etc. in files that end up online. See [python decouple](https://pypi.python.org/pypi/python-decouple] to get started)
 
 # Usage
 To install footyAlert as a native windows service, run;
