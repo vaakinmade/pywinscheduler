@@ -1,3 +1,5 @@
+![gmail shot1](screenshots/FootyAlert2Capture.PNG)
+
 # FootyAlert
 Got sick of repeatedly going on the bbc results page so I wrote an EPL and Man Utd fixture inboxer. Wrapped it in a windows service to run the scheduling job as a native OS task. Being a native windows service, footyAlert can be configured to automtically come on during windows start up. It sends the fixtures and results to your inbox as scheduled without you lifting a finger.
 
@@ -31,7 +33,7 @@ pip install -r requirements.txt
 ```
 
 ### Email (gmail) Configuration
-The `emailserver.py` is where email operations including composure and send-off occurs. Replace the default email address in this module with a valid email address. Since the `email_server.py` module attempts an email account sign-on, it becomes necessary that the account is configured to allow login from **less secure apps**. It is advisable that you create a fresh email account solely for this purpose as it may become compromised afterwards.
+The `emailserver.py` is where email operations including composure and send-off occurs. Replace the default email address in this module with a valid email address. Since the `email_server.py` module attempts an email account sign-on, it becomes necessary that the account is configured to allow login from **less secure apps**. It is therefore recommended that you create a fresh email account solely for this purpose as it may become compromised afterwards.
 
 ### Turning on "Less secure apps" feature
 Once signed into the new gmail/google account, go to;
@@ -54,6 +56,7 @@ To uninstall footyAlert;
 ```python
 python winservice.py remove
 ```
+This uninstalls and removes footyAlert from windows services.
 
 ## TO-DOs
 - unit tests
