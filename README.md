@@ -46,14 +46,15 @@ To install footyAlert as a native windows service, run;
 ```python
 python winservice.py install
 ```
-This installs the program as a native windows app that is manageable from windows services.
+This installs the program as a native windows app that is manageable from windows services. Go on Services and you should see this;
+
 
 To uninstall footyAlert;
 ```python
-python Task_Scheduler_Svc.py remove
+python winservice.py remove
 ```
 
 ## TO-DOs
 - unit tests
-- a bit of design glossing maybe, maybe not 
+- bits of design glossing maybe, maybe not 
 
