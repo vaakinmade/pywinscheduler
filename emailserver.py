@@ -18,10 +18,9 @@ class EmailService():
 	def read_message(self):
 		with open(self.msg_file, mode = "rb") as message:
 			msg = MIMEText(message.read(), "html", "html")
-		msg["Subject"] = "EPL Footy Alert {}".format(datetime.now().strftime("%Y-%m-%d %H:%M"))
+		msg["Subject"] = "EPL Footy Alert {}".format(datetime.now().strftime("%d %b %y | %H:%M"))
 		msg["From"] = "vickeyakinmade22@gmail.com"
 		msg["To"] = "vickeyakinmade22@gmail.com"
-		
 		return msg
 
 	def send_email(self):
