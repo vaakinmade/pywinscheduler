@@ -3,7 +3,7 @@ Got sick of repeatedly going on the bbc results page so I wrote an EPL and Man U
 
 Will be looking to write in some international fixture support as well, especially since Nigeria's punched their Russia '18 ticket.
 
-## Installation
+# Installation
 [Python 3.4+](https://www.python.org/downloads/) is required.
 
 Clone the git repo
@@ -11,10 +11,10 @@ Clone the git repo
 git clone https://github.com/vaakinmade/footy-alert.git
 ```
 
-### Dependencies
+# Dependencies
 
-#### Pycairo
-Pycairo is required by cairosvg which this application uses to convert the football team crest images from svg to png. Using Christopher Gohlke's [libraries](https://www.lfd.uci.edu/~gohlke/pythonlibs/), download the appropriate pycairo .whl file for your python version and bit version. Confirm your python's bit version from the welcome banner in the python shell.
+### Pycairo
+Pycairo is required by cairosvg which this application uses to convert the football team crest images from svg to png. Using Christopher Gohlke's [libraries](https://www.lfd.uci.edu/~gohlke/pythonlibs/), download the appropriate pycairo .whl file for your python version and its bit version. Confirm your python's bit version from the welcome banner in the python shell.
 
 From the confines of your virtualenv, install the pycairo .whl file.
 
@@ -23,24 +23,35 @@ pip install pycairo_file_name.whl
 ```
 The pycairo wheel file used by this application has been included in the root directory for your convenience. Note that it supports python 3.4 64 bit.
 
+### Other dependencies
+
 Install the other dependencies
 ```
 pip install -r requirements.txt
 ```
 
-### Configuring gmail for FootyAlert
+### Email (gmail) Configuration
+The `emailserver.py` is where email operations including composure and send-off occurs. Replace the default email address in this module with a valid email address. Since the `email_server.py` module attempts an email account sign-on, it becomes necessary that the account is configured to allow login from less secure apps. It is advisable that you create a fresh email account solely for this purpose as it may become compromised afterwards.
 
+### Turning on "Less secure apps" feature
+Once signed into the new gmail/google account, go to;
+> https://www.google.com/settings/security/lesssecureapps
+Toggle the button to turn the feature on.
 
-## Steps
-1. Request is fired off to football-data.org's amazing API, gets a bunch of data we are interested in.
-2. JSON response is then crunched and undergoes timezone conversion operations.
-3. Large response datasets are stored in a redis hash so as to adhere to football-data's throttling limitations, and also for performance reasons.
-4. Relevant data is painfully formatted into good old html and written to file.
-5. Team crests are converted from svg to png images as the former is not supported by gmail.
-6. The new png files are hurled up into AWS S3 making it accessible to gmail.
-7. Custom pseudo-email server reads the html file from disk, establishes an smtp conn with gmail client, and encrypts the content with tls before mailing off.
-8. Python scheduler wraps all the above steps as a single job which it runs at scheduled intervals
-9. A Windows service turns the scheduler into a native OS task. App is now viewable from service manager like any other windows service.
+### Configuring the email's password 
+In the `emailserver.py`, the gmail password (GMAIL_PWD), is retrieved from `gmail_key.py` which has been further decoupled to avoid inadequate exposure. Be sure to always use python decouple when dealing with secret keys, api auths, passwords etc in files that end up online. See (python decouple)[https://pypi.python.org/pypi/python-decouple] to get started.
+
+# Usage
+To install footyAlert as a native windows service, run;
+```python
+python winservice.py install
+```
+This installs the program as a native windows app that is manageable from windows services.
+
+To uninstall footyAlert;
+```python
+python Task_Scheduler_Svc.py remove
+```
 
 ## TO-DOs
 - unit tests
