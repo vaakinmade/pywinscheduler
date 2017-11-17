@@ -40,7 +40,7 @@ Once signed into the new gmail/google account, go to;
 Toggle the button to turn the feature on.
 
 ### Configuring the email's password 
-In the `emailserver.py`, the gmail password (GMAIL_PWD), is retrieved from `gmail_key.py` which has been further decoupled to avoid inadequate exposure. Be sure to always use python decouple when dealing with secret keys, api auths, passwords etc. in files that end up online. See [python decouple](https://pypi.python.org/pypi/python-decouple] to get started)
+In the `emailserver.py`, the gmail password (GMAIL_PWD), is retrieved from `gmail_key.py` which has been further decoupled to avoid inadequate exposure. Be sure to always use python decouple when dealing with secret keys, api auths, passwords etc. in files that end up online. See [python decouple](https://pypi.python.org/pypi/python-decouple) to get started.
 
 # Usage
 To install footyAlert as a native windows service, run;
@@ -48,7 +48,7 @@ To install footyAlert as a native windows service, run;
 python winservice.py install
 ```
 This installs the program as a native windows app that is manageable from windows services. Go on Services and you should see this;
-[Windows Services](screenshots/FootyAlert3Capture.PNG)  
+![Windows Services](screenshots/FootyAlert3Capture.PNG)  
 
 To uninstall footyAlert;
 ```python
