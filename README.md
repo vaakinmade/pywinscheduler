@@ -1,5 +1,5 @@
 # FootyAlert
-Got sick of repeatedly going on the bbc results page so I wrote an EPL and Man Utd fixture inboxer. Wrapped it in a windows service to run the scheduling job as a native OS task. Being a native windows service, footy-alert can be configured to automtically come on during windows start up. It sends the fixtures and results to your inbox as scheduled without you lifting a finger.
+Got sick of repeatedly going on the bbc results page so I wrote an EPL and Man Utd fixture inboxer. Wrapped it in a windows service to run the scheduling job as a native OS task. Being a native windows service, footyAlert can be configured to automtically come on during windows start up. It sends the fixtures and results to your inbox as scheduled without you lifting a finger.
 
 Will be looking to write in some international fixture support as well, especially since Nigeria's punched their Russia '18 ticket.
 
@@ -36,10 +36,11 @@ The `emailserver.py` is where email operations including composure and send-off 
 ### Turning on "Less secure apps" feature
 Once signed into the new gmail/google account, go to;
 > https://www.google.com/settings/security/lesssecureapps
+
 Toggle the button to turn the feature on.
 
 ### Configuring the email's password 
-In the `emailserver.py`, the gmail password (GMAIL_PWD), is retrieved from `gmail_key.py` which has been further decoupled to avoid inadequate exposure. Be sure to always use python decouple when dealing with secret keys, api auths, passwords etc in files that end up online. See (python decouple)[https://pypi.python.org/pypi/python-decouple] to get started.
+In the `emailserver.py`, the gmail password (GMAIL_PWD), is retrieved from `gmail_key.py` which has been further decoupled to avoid inadequate exposure. Be sure to always use python decouple when dealing with secret keys, api auths, passwords etc in files that end up online. See [python decouple](https://pypi.python.org/pypi/python-decouple] to get started)
 
 # Usage
 To install footyAlert as a native windows service, run;
@@ -47,7 +48,7 @@ To install footyAlert as a native windows service, run;
 python winservice.py install
 ```
 This installs the program as a native windows app that is manageable from windows services. Go on Services and you should see this;
-
+[Windows Services](screenshots/FootyAlert3Capture.PNG)  
 
 To uninstall footyAlert;
 ```python
