@@ -1,3 +1,5 @@
+![gmail shot1](screenshots/FootyAlert2Capture.PNG)
+
 # FootyAlert
 Got sick of repeatedly going on the bbc results page so I wrote an EPL and Man Utd fixture inboxer. Wrapped it in a windows service to run the scheduling job as a native OS task. Being a native windows service, footyAlert can be configured to automtically come on during windows start up. It sends the fixtures and results to your inbox as scheduled without you lifting a finger.
 
@@ -54,6 +56,7 @@ To uninstall footyAlert;
 ```python
 python winservice.py remove
 ```
+This uninstalls and removes footyAlert from windows services.
 
 ## TO-DOs
 - unit tests
