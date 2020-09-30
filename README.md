@@ -3,7 +3,7 @@
 # FootyAlert
 Got sick of repeatedly going on the bbc results page so I wrote an EPL and Man Utd fixture inboxer. Wrapped it in a windows service to run the scheduling job as a native OS task. Being a native windows service, footyAlert can be configured to automatically come on during windows start up. It sends the fixtures and results to your inbox as scheduled without you lifting a finger.
 
-Will be looking to write in some international fixture support as well, especially since Nigeria's punched their Russia '18 ticket.
+Will be looking to write in some international fixture support as well, especially since England's punched their Russia 2018 ticket.
 
 # Installation
 [Python 3.4+](https://www.python.org/downloads/) is required.
